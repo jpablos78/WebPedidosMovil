@@ -13,7 +13,8 @@
  */
 class ClaseLogin {
 
-    public function login() {
+    public function login($parametros) {
+        
         return 'en login';
     }
 

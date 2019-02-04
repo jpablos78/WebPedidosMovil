@@ -16,7 +16,17 @@ switch ($action) {
 }
 
 function login($objetoLogin) {
-    echo $objetoLogin->login();
+    $us_login = $_POST['us_login'];
+    $us_pass = $_POST['us_pass'];
+
+    //implementar funcion que valide los campos
+
+    $parametros = array(
+        'us_login' => $us_login,
+        'us_pass' => $us_pass
+    );
+
+    echo $objetoLogin->login($parametros);
 }
 
 function logOut($objetoLogin) {

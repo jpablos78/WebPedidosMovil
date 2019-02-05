@@ -1,9 +1,12 @@
 <?php
 
-include_once '../librerias/config.inc.php';
-include_once 'ClaseJson2.php';
+//include_once '../librerias/config.inc.php';
+//include_once '../librerias/config.inc.php';
+include_once 'config.inc.php';
+include_once 'ClaseJson.php';
 
-error_reporting(E_ALL ^ E_WARNING);
+//error_reporting(E_ALL ^ E_WARNING);
+error_reporting(E_ERROR | E_PARSE);
 date_default_timezone_set("America/Guayaquil");
 
 /**
@@ -58,7 +61,7 @@ class ClaseBaseDatos {
         }
 
         if ($this->parametros['json']) {
-            return ClaseJson2::getJson($result);
+            return ClaseJson::getJson($result);
         }
 
         return $result;
@@ -114,7 +117,7 @@ class ClaseBaseDatos {
                 }
 
                 if ($this->parametros['json']) {
-                    $result = ClaseJson2::getJson($result);
+                    $result = ClaseJson::getJson($result);
                 }
 
                 if ($this->parametros['disconnect']) {
@@ -124,6 +127,8 @@ class ClaseBaseDatos {
 
             return $result;
         }
+        
+        return $result;
     }
 
     private function getError() {

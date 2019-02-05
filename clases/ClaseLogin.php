@@ -1,10 +1,6 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+include_once 'ClaseBaseDatos.php';
 
 /**
  * Description of ClaseLogin
@@ -14,8 +10,22 @@
 class ClaseLogin {
 
     public function login($parametros) {
+        $us_pass = $parametros['us_pass'];  
+        $us_login = $parametros['us_login'];
         
-        return 'en login';
+        $password = crypt($us_pass, strtoupper($us_login));
+        
+        //$objetoBaseDatos = new ClaseBaseDatos();
+        $objetoBaseDatos = new ClaseBaseDatos();
+
+        $query = "
+            EXEC SP_WP_LOGIN
+            @in_us_login = '$us_login',
+            @in_us_pass = '$password',
+            @in_operacion = 'LOG'
+        ";
+        
+        return $objetoBaseDatos->query($query);        
     }
 
     public function logOut() {

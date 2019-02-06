@@ -2,12 +2,11 @@
 
 //include_once '../librerias/config.inc.php';
 //include_once '../librerias/config.inc.php';
-include_once 'config.inc.php';
-include_once 'ClaseJson.php';
-
+//include_once 'config.inc.php';
+//include_once 'ClaseJson.php';
 //error_reporting(E_ALL ^ E_WARNING);
-error_reporting(E_ERROR | E_PARSE);
-date_default_timezone_set("America/Guayaquil");
+//error_reporting(E_ERROR | E_PARSE);
+//date_default_timezone_set("America/Guayaquil");
 
 /**
  * Description of ClaseBaseDatos
@@ -97,17 +96,40 @@ class ClaseBaseDatos {
                         $this->commit();
                     }
 
+                    //print_r($resp[0]);
+                    //var_dump($resp);
+                    //echo $resp[0]['message'];
                     $registros = array();
                     while ($row = odbc_fetch_array($resp)) {
+                        if (array_key_exists('mensaje', $row)) {
+                            $mensaje = $row['mensaje'];
+                        }
+
+                        if (array_key_exists('ok', $row)) {
+                            $ok = $row['ok'];
+                            if ($row['ok'] == 'N') {
+                                break;
+                            }
+                        }
+
+
+
+                        //print_r($row);
+                        //echo $row['ok'];
+                        //echo $row['mensaje'];
                         $registros[] = array_map('utf8_encode', $row);
                     }
 
                     $result = array(
                         "success" => true,
                         "ok" => $ok,
-                        "message" => $mensaje,
-                        "data" => $registros
+                        "message" => $mensaje
+                            //"data" => $registros
                     );
+
+                    if (count($registros) > 0) {
+                        $result['data'] = $registros;
+                    }
                 } else {
                     $result = $this->getError();
 
@@ -127,7 +149,7 @@ class ClaseBaseDatos {
 
             return $result;
         }
-        
+
         return $result;
     }
 
